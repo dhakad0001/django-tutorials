@@ -5,4 +5,12 @@ from django.http import HttpResponse
 
 
 def index(requests):
-    return HttpResponse("<h1>Hello, world. You're at the polls index.</h1>")
+    return render(requests, 'polls/index.html')
+
+
+# how we can render an html file in django
+
+
+
+
+
