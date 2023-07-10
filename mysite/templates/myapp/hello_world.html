@@ -1,13 +1,18 @@
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/bootstrap.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'myapp/css/hello_world.css' %}"> -->
 </head>
 <body>
-    <h1> Hey there my name is {{ name }}
+    <h1>Hey there my name is {{ name }}
     </h1>
 
+    <!-- <h2 style="font-style: italic;">My hobbies are:</h2> -->
     <h2>My hobbies are:</h2>
     <ul>
         {% for hobby in myhobbies %}
