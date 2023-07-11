@@ -1,7 +1,7 @@
 
 from django.urls import path 
-from polls.views import index
+from polls.views import *
 
 urlpatterns = [
-    path('hello/', index)
+    path('showpolls/', show_polls)
 ]
