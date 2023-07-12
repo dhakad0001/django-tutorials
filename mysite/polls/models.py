@@ -7,7 +7,7 @@ class Question(models.Model):
     pub_date = models.DateTimeField()
 
     def __str__(self):
-        return f'Question Obj: {self.question_text}'
+        return f'{self.question_text}'
     
     def was_published_recently(self):
         # this method will tell me if the question was published within last 24 hours
@@ -18,6 +18,17 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     # question to which this particular choice is related?
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.choice_text}'
+
+# ForeignKey 
+
+
+#   one      - to -     many
+#  Questions            Choice 
+
+# Django automatically stores all the related instance of this 'many' (Choice) in the 'one' (Question) object
 
 
 

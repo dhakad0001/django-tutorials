@@ -1,24 +1,29 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-
 from polls.models import Question, Choice
 
-
-def show_polls(requests):
-    q1 = Question.objects.get(id=1)
-    q2 = Question.objects.get(id=2)
-
+def index(request):
+    '''
+    This view returns a list of all questions
+    '''
+    questions = Question.objects.all()
+    
     context = {
-        'q1': q1.question_text,
-        'q2': q2.question_text
+        'question_list': [question for question in questions]
     }
-    return render(requests, 'polls/index.html', context)
+    
+    return render(request, 'polls/index.html', context)
+    # return HttpResponse("Dummy response")
 
+def detail(request, question_id):
+    html = f"<h1>This page will show the<br> question no. {question_id}<br> with all its choices</h1>"
+    return HttpResponse(html)
 
-# how we can render an html file in django
+def results(request, question_id):
+    html = f"<h1>This page will show polling result of question no. {question_id}</h1>"
+    return HttpResponse(html)
 
-
-
-
-
+def vote(request, question_id):
+    html = f"<h1>You're voting for question no. {question_id}</h1>"
+    return HttpResponse(html)

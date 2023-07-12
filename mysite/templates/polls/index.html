@@ -2,12 +2,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
 </head>
 <body>
-    <h3>Please vote for below questions</h3>
-
-    <h2>1. {{ q1 }}</h2>
-    <h2>2. {{ q2 }}</h2>
+    {% if question_list %}
+        <ul>
+            {% for question in question_list %}
+                <li>
+                    <h2>
+                    <!-- <a href="/polls/{{question.id}}">{{question.question_text}}</a> -->
+                    <a href="{% url 'detail' question.id %}">{{question.question_text}}</a>
+                    </h2>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available as of now, maybe you can check again later.</p>
+    {% endif %}
 </body>
 </html>
