@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, reverse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from polls.models import Question, Choice
 
@@ -14,16 +14,44 @@ def index(request):
     }
     
     return render(request, 'polls/index.html', context)
-    # return HttpResponse("Dummy response")
 
 def detail(request, question_id):
-    html = f"<h1>This page will show the<br> question no. {question_id}<br> with all its choices</h1>"
-    return HttpResponse(html)
+    question = Question.objects.get(id=question_id)
+    context = {
+        'question': question
+    }
+    return render(request, 'polls/detail.html', context)
 
 def results(request, question_id):
-    html = f"<h1>This page will show polling result of question no. {question_id}</h1>"
-    return HttpResponse(html)
+    '''
+        Q1. 
+
+        c1 - vote count
+        c2 - vote count
+        c3 - vote count
+    '''
+    question = Question.objects.get(id=question_id)
+    context = {
+        'question': question
+    }
+    return render(request, 'polls/result.html', context)
+
 
 def vote(request, question_id):
-    html = f"<h1>You're voting for question no. {question_id}</h1>"
-    return HttpResponse(html)
+    question = Question.objects.get(id=question_id)
+
+    try:
+        selected_choice = Choice.objects.get(id=request.POST["my_selection"])
+
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, "polls/detail.html", { "question": question, "error_message": "You didn't select a choice.",},
+        )
+    
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse("results", args=(question.id,)))

@@ -6,15 +6,34 @@
 </head>
 <body>
     <!-- 1. question 
-        - c1
+        - _ c1
         - c2 - selected this
         - c3 
         
         submit button
     -->
-    
-    <form action="">
+
+    <!-- http request method
+    POST 
+    GET
+    DELETE
+    PUT
+    -->
+    <form action="{% url 'vote' question.id %}" method="post">
+        {% csrf_token %}
+
+        <h1>{{ question.question_text }}</h1>
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
         
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="my_selection" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+
+        <input type="submit" value="Vote">
     </form>
 </body>
 </html>
